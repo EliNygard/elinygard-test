@@ -16,6 +16,9 @@ import styles from "./site.module.less";
 import React from "react";
 import { ButtonBackToMainView } from "src/client/components/buttonBackToMainView";
 
+// Improvements: 
+// - Refactor site to separate component and keep page file clean
+
 export const SitePage = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
