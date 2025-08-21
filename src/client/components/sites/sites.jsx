@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import {
   Button,
@@ -10,7 +11,6 @@ import {
 } from "@oliasoft-open-source/react-ui-library";
 import { sitesLoaded } from "store/entities/sites/sites";
 import styles from "./sites.module.less";
-import { oilRigsLoaded } from "src/client/store/entities/oil-rigs/oil-rigs";
 
 const Sites = ({ list, loading, sitesLoaded }) => {
   return (
@@ -32,6 +32,10 @@ const Sites = ({ list, loading, sitesLoaded }) => {
                   <li key={i}>
                     <h3>{site.name}</h3>
                     <div>Location: {site.country}</div>
+
+                    <Link to={`/site/${site.id}`}>
+                      <Button label="View Details" small />
+                    </Link>
 
                     <Accordion
                       heading={<Heading>Oil rigs used on this site</Heading>}
@@ -58,6 +62,7 @@ const Sites = ({ list, loading, sitesLoaded }) => {
 
 const mapStateToProps = ({ entities }) => {
   const { sites } = entities;
+
   return {
     loading: sites.loading,
     list: sites.list,

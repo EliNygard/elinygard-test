@@ -4,6 +4,7 @@ import { TopBar } from "@oliasoft-open-source/react-ui-library";
 import Logo from "client/views/images/logo.svg";
 
 import { Main } from "client/views/main/main";
+import { SitePage } from "./site/site";
 
 export const App = () => {
   return (
@@ -15,6 +16,7 @@ export const App = () => {
       />
       <Routes>
         <Route path="/" element={<Main />} />
+        <Route path="site/:id" element={<SitePage />} />
       </Routes>
     </>
   );
