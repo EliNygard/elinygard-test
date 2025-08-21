@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from 'react-router-dom';
 import { connect } from "react-redux";
 import {
   Button,
@@ -32,6 +33,10 @@ const Sites = ({ list, loading, sitesLoaded }) => {
                   <li key={i}>
                     <h3>{site.name}</h3>
                     <div>Location: {site.country}</div>
+
+                    <Link to={`/site/${site.name}`}>
+                    <Button label="View Details" small />
+                    </Link>
 
                     <Accordion
                       heading={<Heading>Oil rigs used on this site</Heading>}
