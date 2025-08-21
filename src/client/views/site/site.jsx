@@ -14,6 +14,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Sites } from "src/client/components/sites/sites";
 import styles from "./site.module.less";
 import React from "react";
+import { ButtonBackToMainView } from "src/client/components/buttonBackToMainView";
 
 export const SitePage = () => {
   const { id } = useParams();
@@ -21,8 +22,6 @@ export const SitePage = () => {
   const { list, loading } = useSelector((s) => s.entities.sites);
 
   const site = list?.find((s) => String(s.id) === String(id));
-
-  console.log(site);
 
   if (loading && !site) {
     return (
@@ -45,9 +44,7 @@ export const SitePage = () => {
           <section className={styles.centerText}>
             <h1>Oil site not found</h1>
             <p>Unfortunately we could not find this oil site.</p>
-            <Link to="/">
-              <Button label="Go back to the oil site list"></Button>
-            </Link>
+            <ButtonBackToMainView />
           </section>
         </Flex>
       </Page>
@@ -56,10 +53,7 @@ export const SitePage = () => {
 
   return (
     <Page left={0}>
-      <Link to="/">
-        <Button label="Go back to the oil site list"></Button>
-      </Link>
-
+      <ButtonBackToMainView />
       <Heading top>{site.name}</Heading>
 
       <Grid columns="1fr 1fr">
@@ -70,26 +64,20 @@ export const SitePage = () => {
           </Card>
           <Card>
             <p>Oil Rigs at this site</p>
-            {site.oilRigs.map((rig) => (
-              <Row spacing={0}>
-                <Column padding width="100%">
-                  {rig}
-                </Column>
-              </Row>
-            ))}
+            {site.oilRigs && site.oilRigs.length > 0 ? (
+              site.oilRigs.map((rig) => (
+                <Row key={rig} spacing={0}>
+                  <Column padding width="100%">
+                    {rig}
+                  </Column>
+                </Row>
+              ))
+            ) : (
+              <p>There are no oil rigs at this site.</p>
+            )}
           </Card>
         </React.Fragment>
       </Grid>
-      {/* <p>Location: {site.country}</p>
-
-      <p>Oil Rigs at this site</p>
-      {site.oilRigs.map((rig) => (
-        <Row spacing={0}>
-          <Column padding width="100%">
-            {rig}
-          </Column>
-        </Row>
-      ))} */}
     </Page>
   );
 };
