@@ -16,7 +16,7 @@ export const App = () => {
       />
       <Routes>
         <Route path="/" element={<Main />} />
-        <Route path="site/:name" element={<SitePage />} />
+        <Route path="site/:id" element={<SitePage />} />
       </Routes>
     </>
   );
