@@ -30,23 +30,23 @@ const Sites = ({ list, loading, sitesLoaded }) => {
               <ul>
                 {list.map((site, i) => (
                   <li key={i}>
-                    <h3>{site.name}</h3>
-                    <div>Location: {site.country}</div>
-
-                    <Link to={`/site/${site.id}`}>
-                      <Button label="View Details" small />
-                    </Link>
-
-                    <Accordion
-                      heading={<Heading>Oil rigs used on this site</Heading>}
-                      managed
-                    >
-                      <ul>
-                        {site.oilRigs.map((oilRig) => (
-                          <li key={oilRig}>{oilRig}</li>
-                        ))}
-                      </ul>
-                    </Accordion>
+                    <Card heading={`Name: ${site.name}`}>
+                      <Link to={`/site/${site.id}`}>
+                        <Button label="View Details about this site" small />
+                      </Link>
+                      <p>Country: {site.country}</p>
+                      <p>Id number: {site.id}</p>
+                      <Accordion
+                        heading={<Heading>Oil rigs used on this site</Heading>}
+                        managed
+                      >
+                        <ul>
+                          {site.oilRigs.map((oilRig) => (
+                            <li key={oilRig}>{oilRig}</li>
+                          ))}
+                        </ul>
+                      </Accordion>
+                    </Card>
                   </li>
                 ))}
               </ul>
