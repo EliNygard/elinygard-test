@@ -6,11 +6,18 @@ import {
   Heading,
   Column,
   Row,
+  Select,
 } from "@oliasoft-open-source/react-ui-library";
 import { oilRigsLoaded } from "store/entities/oil-rigs/oil-rigs";
 import styles from "./oil-rigs.module.less";
+import { useSortByString } from "src/client/hooks/use-sort-by-string";
+import { SortOrderSelect } from "../ui/sort-order-select";
 
 const OilRigs = ({ list, loading, oilRigsLoaded }) => {
+  const { order, sortedList, handleSortChange } = useSortByString(
+    list,
+    (site) => site.name
+  );
   return (
     <Card heading={<Heading>List of oil rigs</Heading>}>
       <Row>
@@ -21,12 +28,13 @@ const OilRigs = ({ list, loading, oilRigsLoaded }) => {
             loading={loading}
             disabled={loading}
           />
+          <SortOrderSelect onChange={handleSortChange} />
         </Column>
         <Column>
           <div className={styles.oilRigsList}>
-            {list.length ? (
+            {sortedList.length ? (
               <ul>
-                {list.map((oilRig, i) => (
+                {sortedList.map((oilRig, i) => (
                   <li key={i}>
                     <Card
                       heading={`Name: ${oilRig.name}
