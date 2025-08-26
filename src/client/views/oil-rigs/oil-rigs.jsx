@@ -1,9 +1,12 @@
-import { Page } from "@oliasoft-open-source/react-ui-library";
+import { Heading, Page, Spacer } from "@oliasoft-open-source/react-ui-library";
+import { OilRigs } from "src/client/components/oil-rigs/oil-rigs";
 
 export const RigsPage = ({}) => {
   return (
     <Page left={0}>
-      <h1>Here comes oil rigs</h1>
+      <Heading top>Oil Rigs</Heading>
+      <Spacer />
+      <OilRigs />
     </Page>
   )
 }
