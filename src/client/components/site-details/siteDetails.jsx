@@ -13,7 +13,7 @@ import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import styles from "./siteDetails.module.less";
 import React, { useEffect } from "react";
-import { ButtonBackToMainView } from "src/client/components/buttonBackToMainView";
+import { BackToSitesButton } from "src/client/components/shared/back-to-sites-button";
 import { sitesLoaded } from "src/client/store/entities/sites/sites";
 
 const SiteDetails = ({}) => {
@@ -49,7 +49,7 @@ const SiteDetails = ({}) => {
         <section className={styles.centerText}>
           <h1>Oil site not found</h1>
           <p>Unfortunately we could not find this oil site.</p>
-          <ButtonBackToMainView />
+          <BackToSitesButton />
         </section>
       </Flex>
     );
@@ -57,7 +57,7 @@ const SiteDetails = ({}) => {
 
   return (
     <>
-      <ButtonBackToMainView />
+      <BackToSitesButton />
       <Spacer />
       <Heading top>Oil Site: {site.name}</Heading>
       <Grid columns="1fr 1fr">
