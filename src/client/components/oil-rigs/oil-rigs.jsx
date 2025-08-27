@@ -7,6 +7,7 @@ import {
   Column,
   Row,
   Select,
+  Spacer,
 } from "@oliasoft-open-source/react-ui-library";
 import { oilRigsLoaded } from "store/entities/oil-rigs/oil-rigs";
 import styles from "./oil-rigs.module.less";
@@ -28,6 +29,7 @@ const OilRigs = ({ list, loading, oilRigsLoaded }) => {
             loading={loading}
             disabled={loading}
           />
+          <Spacer />
           <SortOrderSelect onChange={handleSortChange} />
         </Column>
         <Column>
