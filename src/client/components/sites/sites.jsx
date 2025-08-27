@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import {
@@ -9,6 +9,7 @@ import {
   Row,
   Accordion,
   Select,
+  Spacer,
 } from "@oliasoft-open-source/react-ui-library";
 import { sitesLoaded } from "store/entities/sites/sites";
 import styles from "./sites.module.less";
@@ -16,7 +17,7 @@ import { useSortByString } from "src/client/hooks/use-sort-by-string";
 import { SortOrderSelect } from "../ui/sort-order-select";
 
 const Sites = ({ list, loading, sitesLoaded }) => {
-  const { order, sortedList, handleSortChange } = useSortByString(
+  const { sortedList, handleSortChange } = useSortByString(
     list,
     (site) => site.name
   );
@@ -31,6 +32,7 @@ const Sites = ({ list, loading, sitesLoaded }) => {
             loading={loading}
             disabled={loading}
           />
+          <Spacer />
           <SortOrderSelect onChange={handleSortChange} />
         </Column>
         <Column>
@@ -40,7 +42,12 @@ const Sites = ({ list, loading, sitesLoaded }) => {
                 {sortedList.map((site, i) => (
                   <li key={i}>
                     <Card heading={`Name: ${site.name}`}>
-                      <Link to={`/site/${site.id}`}>
+                      <Link
+                        to={{
+                          pathname: `/site/${site.id}`,
+                          search: location.search,
+                        }}
+                      >
                         <Button label="View Details about this site" small />
                       </Link>
                       <p>Country: {site.country}</p>
