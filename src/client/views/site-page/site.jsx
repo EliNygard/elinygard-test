@@ -6,5 +6,5 @@ export const SitePage = ({}) => {
     <Page left={0}>
       <SiteDetails />
     </Page>
-  )
-}
+  );
+};
