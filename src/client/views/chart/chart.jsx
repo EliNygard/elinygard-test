@@ -1,5 +1,5 @@
 import { Page } from "@oliasoft-open-source/react-ui-library";
-import SitesChart from "src/client/components/site-chart/sites-chart";
+import { SitesChart } from "src/client/components/site-chart/sites-chart";
 
 export const ChartPage = ({}) => {
   return (

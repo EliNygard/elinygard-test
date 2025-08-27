@@ -1,6 +1,7 @@
-import { Card, Heading, Spacer } from "@oliasoft-open-source/react-ui-library";
+import { Button, Card, Heading, Spacer } from "@oliasoft-open-source/react-ui-library";
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { connect } from "react-redux";
+
 import {
   BarChart,
   Bar,
@@ -12,6 +13,7 @@ import {
   Legend,
   ResponsiveContainer,
 } from "recharts";
+import { sitesLoaded } from "src/client/store/entities/sites/sites";
 
 const data = [
   {
@@ -44,14 +46,22 @@ const data = [
   },
 ];
 
-const SitesChart = () => {
-  const dispatch = useDispatch();
-  const { list, loading } = useSelector((s) => s.entities.sites);
+const SitesChart = ({ list, loading, sitesLoaded }) => {
   console.log(list);
+  const sitesNames = list.map((site) => site.name)
+  console.log(sitesNames);
+  const amountRigs = list.map((site) => site.oilRigs.length)
+  console.log(amountRigs);
 
   return (
     <>
       <Heading>Chart of oil rigs on sites</Heading>
+      <Button
+        label="Load sites"
+        onClick={sitesLoaded}
+        loading={loading}
+        disabled={loading}
+      />
       <Spacer />
       <ResponsiveContainer width="100%" height="100%">
         <BarChart
@@ -86,4 +96,18 @@ const SitesChart = () => {
   );
 };
 
-export default SitesChart;
+const mapStateToProps = ({ entities }) => {
+  const { sites } = entities;
+
+  return {
+    loading: sites.loading,
+    list: sites.list,
+  };
+};
+
+const mapDispatchToProps = {
+  sitesLoaded,
+};
+
+const ConnectedSites = connect(mapStateToProps, mapDispatchToProps)(SitesChart);
+export { ConnectedSites as SitesChart };
