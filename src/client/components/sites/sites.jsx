@@ -14,7 +14,7 @@ import {
 import { sitesLoaded } from "store/entities/sites/sites";
 import styles from "./sites.module.less";
 import { useSortByString } from "src/client/hooks/use-sort-by-string";
-import { SortOrderSelect } from "../ui/sort-order-select";
+import { SortOrderSelect } from "../shared/sort-order-select";
 
 const Sites = ({ list, loading, sitesLoaded }) => {
   const { sortedList, handleSortChange } = useSortByString(

@@ -12,7 +12,7 @@ import {
 import { oilRigsLoaded } from "store/entities/oil-rigs/oil-rigs";
 import styles from "./oil-rigs.module.less";
 import { useSortByString } from "src/client/hooks/use-sort-by-string";
-import { SortOrderSelect } from "../ui/sort-order-select";
+import { SortOrderSelect } from "../shared/sort-order-select";
 
 const OilRigs = ({ list, loading, oilRigsLoaded }) => {
   const { order, sortedList, handleSortChange } = useSortByString(
