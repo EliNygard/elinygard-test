@@ -51,20 +51,26 @@ The main endpoints are already there, and you can simply test it by clicking `Lo
 ##### TODO 
 
 - in `Main View`, expand the Sites and Oil rigs details ✅
+  
 - `Main View` should consist of only Sites list, whereas list of Oil rigs should be moved to other view ✅
+  
 - You should be able to sort Sites and Oil rigs lists by name
+  
 - Each Site in `Main View` should consist of:
     - name ✅
     - country name ✅
     - list of oil rigs used ✅
+
 - Clicking on the site of interest (button / link from previous point) should result in navigating to `Details Page` ✅
 - You should be able to navigate back to `Main View` from `Details Page` ✅
 - `Detailed Page` of each oil site should consist of:
     - name ✅
     - country name ✅
     - `Detailed Oil Rigs List` 
+  
 - Use loading indicators whenever appropriate
-- Create `Chart View`
+
+- Create `Chart View` ✅
 - You should be able to navigate back to `Main View` from `Chart View` ✅
 - Pick any charting library of your choice and plot the Sites on Bar or Line chart
     - Y axis should be the amount of oil rigs used for the site
