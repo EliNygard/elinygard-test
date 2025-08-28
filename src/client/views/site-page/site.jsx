@@ -1,5 +1,5 @@
 import { Page } from "@oliasoft-open-source/react-ui-library";
-import SiteDetails from "src/client/components/site-details/siteDetails";
+import SiteDetails from "src/client/components/site-details/site-details";
 
 export const SitePage = ({}) => {
   return (
