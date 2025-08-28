@@ -9,7 +9,8 @@ import {
 } from "@oliasoft-open-source/react-ui-library";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import styles from "./siteDetails.module.less";
+import styles from "./site-details.module.less";
+import React, { useEffect } from "react";
 import { BackToSitesButton } from "src/client/components/shared/back-to-sites-button";
 import { sitesLoaded } from "src/client/store/entities/sites/sites";
 import LoadingOverlay from "../shared/loading-overlay";
