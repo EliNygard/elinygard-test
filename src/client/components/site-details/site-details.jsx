@@ -59,29 +59,30 @@ const SiteDetails = ({}) => {
     <>
       <BackToSitesButton />
       <Spacer />
-      <Heading top>Oil Site: {site.name}</Heading>
-      <Grid columns="1fr 1fr">
-        <React.Fragment key=".0">
-          <Card>
-            <p>Country: {site.country}</p>
-            <p>Id: {site.id}</p>
-          </Card>
-          <Card>
-            <p>Oil Rigs at this site</p>
-            {site.oilRigs && site.oilRigs.length > 0 ? (
-              site.oilRigs.map((rig) => (
-                <Row key={rig} spacing={0}>
-                  <Column padding width="100%">
-                    {rig}
-                  </Column>
-                </Row>
-              ))
-            ) : (
-              <p>There are no oil rigs at this site.</p>
-            )}
-          </Card>
-        </React.Fragment>
-      </Grid>
+      <Card heading={<Heading top>Oil Site: {site.name}</Heading>}>
+        <Grid columns="1fr 1fr" gap="1rem">
+          <React.Fragment key=".0">
+            <Card>
+              <p>Country: {site.country}</p>
+              <p>Id: {site.id}</p>
+            </Card>
+            <Card>
+              <Heading>Oil Rigs at this site</Heading>
+              {site.oilRigs && site.oilRigs.length > 0 ? (
+                site.oilRigs.map((rig) => (
+                  <Row key={rig} spacing={0}>
+                    <Column padding width="100%">
+                      {rig}
+                    </Column>
+                  </Row>
+                ))
+              ) : (
+                <p>There are no oil rigs at this site.</p>
+              )}
+            </Card>
+          </React.Fragment>
+        </Grid>
+      </Card>
     </>
   );
 };
