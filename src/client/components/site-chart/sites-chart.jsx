@@ -1,13 +1,12 @@
+import React from "react";
 import {
   Button,
   Card,
   Column,
   Heading,
-  Loader,
   Row,
   Spacer,
 } from "@oliasoft-open-source/react-ui-library";
-import React from "react";
 import { connect } from "react-redux";
 
 import {
@@ -22,9 +21,9 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import { sitesLoaded } from "src/client/store/entities/sites/sites";
+import LoadingOverlay from "../shared/loading-overlay";
 
 const SitesChart = ({ list, loading, sitesLoaded }) => {
-
   return (
     <>
       <Card heading={<Heading>Chart of oil rigs on sites</Heading>}>
@@ -39,7 +38,7 @@ const SitesChart = ({ list, loading, sitesLoaded }) => {
           </Column>
           <Column>
             <div style={{ width: "100%", height: 360 }}>
-              {loading && <Loader />}
+              {loading && !list && <LoadingOverlay />}
               {!loading && list.length > 0 ? (
                 <ResponsiveContainer width="100%" height="100%">
                   <BarChart
@@ -54,7 +53,13 @@ const SitesChart = ({ list, loading, sitesLoaded }) => {
                     }}
                   >
                     <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey="name" interval={0} angle={-25} textAnchor="end" height={80}/>
+                    <XAxis
+                      dataKey="name"
+                      interval={0}
+                      angle={-25}
+                      textAnchor="end"
+                      height={80}
+                    />
                     <YAxis />
                     <Tooltip />
                     <Legend />

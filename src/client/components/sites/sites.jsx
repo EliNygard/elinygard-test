@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { connect } from "react-redux";
 import {
   Button,
@@ -15,8 +15,10 @@ import { sitesLoaded } from "store/entities/sites/sites";
 import styles from "./sites.module.less";
 import { useSortByString } from "src/client/hooks/use-sort-by-string";
 import { SortOrderSelect } from "../shared/sort-order-select";
+import LoadingOverlay from "../shared/loading-overlay";
 
 const Sites = ({ list, loading, sitesLoaded }) => {
+  const { search } = useLocation();
   const { sortedList, handleSortChange } = useSortByString(
     list,
     (site) => site.name
@@ -37,15 +39,19 @@ const Sites = ({ list, loading, sitesLoaded }) => {
         </Column>
         <Column>
           <div className={styles.sitesList}>
+            {loading && !sortedList && <LoadingOverlay />}
+            {!sortedList && !loading && (
+              <em>Could not load sites. Please try again.</em>
+            )}
             {sortedList.length ? (
               <ul>
-                {sortedList.map((site, i) => (
-                  <li key={i}>
+                {sortedList.map((site) => (
+                  <li key={site.id}>
                     <Card heading={`Name: ${site.name}`}>
                       <Link
                         to={{
                           pathname: `/site/${site.id}`,
-                          search: location.search,
+                          search,
                         }}
                       >
                         <Button label="View Details about this site" small />
