@@ -13,6 +13,7 @@ import { oilRigsLoaded } from "store/entities/oil-rigs/oil-rigs";
 import styles from "./oil-rigs.module.less";
 import { useSortByString } from "src/client/hooks/use-sort-by-string";
 import { SortOrderSelect } from "../shared/sort-order-select";
+import LoadingOverlay from "../shared/loading-overlay";
 
 const OilRigs = ({ list, loading, oilRigsLoaded }) => {
   const { order, sortedList, handleSortChange } = useSortByString(
@@ -34,6 +35,10 @@ const OilRigs = ({ list, loading, oilRigsLoaded }) => {
         </Column>
         <Column>
           <div className={styles.oilRigsList}>
+            {loading && !sortedList && <LoadingOverlay />}
+            {!sortedList && !loading && (
+              <em>Could not load oil rigs. Please try again.</em>
+            )}
             {sortedList.length ? (
               <ul>
                 {sortedList.map((oilRig, i) => (

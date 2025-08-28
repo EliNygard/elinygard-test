@@ -10,13 +10,12 @@ import {
   Accordion,
   Select,
   Spacer,
-  Loader,
-  Spinner,
 } from "@oliasoft-open-source/react-ui-library";
 import { sitesLoaded } from "store/entities/sites/sites";
 import styles from "./sites.module.less";
 import { useSortByString } from "src/client/hooks/use-sort-by-string";
 import { SortOrderSelect } from "../shared/sort-order-select";
+import LoadingOverlay from "../shared/loading-overlay";
 
 const Sites = ({ list, loading, sitesLoaded }) => {
   const { search } = useLocation();
@@ -40,18 +39,8 @@ const Sites = ({ list, loading, sitesLoaded }) => {
         </Column>
         <Column>
           <div className={styles.sitesList}>
-            {loading && !list && (
-              <Loader
-                height="100%"
-                testId="story-default-spinner"
-                text="Loading..."
-                theme="white"
-                width="100%"
-              >
-                <Spinner dark />
-              </Loader>
-            )}
-            {!list && !loading && (
+            {loading && !sortedList && <LoadingOverlay />}
+            {!sortedList && !loading && (
               <em>Could not load sites. Please try again.</em>
             )}
             {sortedList.length ? (
