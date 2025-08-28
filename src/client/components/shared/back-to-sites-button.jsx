@@ -1,7 +1,7 @@
 import { Button } from "@oliasoft-open-source/react-ui-library";
 import { Link, useLocation } from "react-router-dom";
 
-export const ButtonBackToMainView = () => {
+export const BackToSitesButton = () => {
   const location = useLocation();
   const to = location.search ? { pathname: "/", search: location.search } : "/";
   return (
