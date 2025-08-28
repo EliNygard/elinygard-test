@@ -1,20 +1,19 @@
+import React, { useEffect } from "react";
 import {
   Card,
   Column,
-  Flex,
   Grid,
   Heading,
-  Loader,
   Row,
   Spacer,
-  Spinner,
 } from "@oliasoft-open-source/react-ui-library";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import styles from "./siteDetails.module.less";
-import React, { useEffect } from "react";
 import { BackToSitesButton } from "src/client/components/shared/back-to-sites-button";
 import { sitesLoaded } from "src/client/store/entities/sites/sites";
+import LoadingOverlay from "../shared/loading-overlay";
+import NotFound from "../shared/not-found/not-found";
 
 const SiteDetails = ({}) => {
   const { id } = useParams();
@@ -30,29 +29,11 @@ const SiteDetails = ({}) => {
   const site = list?.find((s) => String(s.id) === String(id));
 
   if (loading) {
-    return (
-      <Loader
-        height="100%"
-        testId="story-default-spinner"
-        text="Loading..."
-        theme="white"
-        width="100%"
-      >
-        <Spinner dark />
-      </Loader>
-    );
+    return <LoadingOverlay />;
   }
 
   if (!loading && !site) {
-    return (
-      <Flex justifyContent="center">
-        <section className={styles.centerText}>
-          <h1>Oil site not found</h1>
-          <p>Unfortunately we could not find this oil site.</p>
-          <BackToSitesButton />
-        </section>
-      </Flex>
-    );
+    return <NotFound page="Site" text="this site" />;
   }
 
   return (
@@ -60,7 +41,7 @@ const SiteDetails = ({}) => {
       <BackToSitesButton />
       <Spacer />
       <Heading top>Oil Site: {site.name}</Heading>
-      <Grid columns="1fr 1fr">
+      <Grid columns="1fr 1fr" gap>
         <React.Fragment key=".0">
           <Card>
             <p>Country: {site.country}</p>
