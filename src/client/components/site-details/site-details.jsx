@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useMemo } from "react";
 import {
   Card,
   Column,
@@ -14,25 +14,55 @@ import { BackToSitesButton } from "src/client/components/shared/back-to-sites-bu
 import { sitesLoaded } from "src/client/store/entities/sites/sites";
 import LoadingOverlay from "../shared/loading-overlay";
 import NotFound from "../shared/not-found/not-found";
+import { oilRigsLoaded } from "src/client/store/entities/oil-rigs/oil-rigs";
 
 const SiteDetails = ({}) => {
   const { id } = useParams();
   const dispatch = useDispatch();
-  const { list, loading } = useSelector((s) => s.entities.sites);
+
+  const { list: sites, loading: sitesLoading } = useSelector(
+    (s) => s.entities.sites
+  );
+  const { list: oilRigs, loading: oilRigsLoading } = useSelector(
+    (s) => s.entities.oilRigs
+  );
 
   useEffect(() => {
-    if (!list || list.length === 0) {
+    if (!sites || sites.length === 0) {
       dispatch(sitesLoaded());
     }
-  }, [list?.length, dispatch]);
+    if (!oilRigs || oilRigs.length === 0) {
+      dispatch(oilRigsLoaded());
+    }
+  }, [sites?.length, oilRigs?.length, dispatch]);
 
-  const site = list?.find((s) => String(s.id) === String(id));
+  const site = sites?.find((s) => String(s.id) === String(id));
 
-  if (loading) {
+  const oilRigsOnSite = useMemo(() => {
+    if (!site || !oilRigs?.length) return [];
+    const byId = new Map(oilRigs.map((r) => [String(r.id), r]));
+    const byName = new Map(
+      oilRigs.map((r) => [String((r.name || "").toLowerCase()), r])
+    );
+
+    return (site.oilRigs || []).map((token) => {
+      const key = String(token);
+      return (
+        byId.get(key) ||
+        byName.get(key.toLocaleLowerCase()) || {
+          id: key,
+          name: "Unknown",
+          manufacturer: "Unknown",
+        }
+      );
+    });
+  }, [site, oilRigs]);
+
+  if (sitesLoading || oilRigsLoading) {
     return <LoadingOverlay />;
   }
 
-  if (!loading && !site) {
+  if (!sitesLoading && !site) {
     return <NotFound page="Site" text="this site" />;
   }
 
@@ -48,18 +78,22 @@ const SiteDetails = ({}) => {
             <p>Id: {site.id}</p>
           </Card>
           <Card>
-            <p>Oil Rigs at this site</p>
-            {site.oilRigs && site.oilRigs.length > 0 ? (
-              site.oilRigs.map((rig) => (
-                <Row key={rig} spacing={0}>
-                  <Column padding width="100%">
-                    {rig}
-                  </Column>
-                </Row>
-              ))
-            ) : (
-              <p>There are no oil rigs at this site.</p>
-            )}
+            <Heading>Oil Rigs at this site</Heading>
+            <Spacer />
+            <ul className={styles.oilRigsList}>
+              {oilRigsOnSite && oilRigsOnSite.length > 0 ? (
+                oilRigsOnSite.map((rig) => (
+                  <li key={rig.id}>
+                    <Card heading={`Name: ${rig.name}`}>
+                      <p>Manufacturer: {rig.manufacturer}</p>
+                      <p>Id: {rig.id}</p>
+                    </Card>
+                  </li>
+                ))
+              ) : (
+                <p>There are no oil rigs at this site.</p>
+              )}
+            </ul>
           </Card>
         </React.Fragment>
       </Grid>
