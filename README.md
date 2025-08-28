@@ -54,9 +54,9 @@ The main endpoints are already there, and you can simply test it by clicking `Lo
   
 - `Main View` should consist of only Sites list, whereas list of Oil rigs should be moved to other view ✅
   
-- You should be able to sort Sites and Oil rigs lists by name
+- You should be able to sort Sites and Oil rigs lists by name ✅
   
-- Each Site in `Main View` should consist of:
+- Each Site in `Main View` should consist of: ✅
     - name ✅
     - country name ✅
     - list of oil rigs used ✅
@@ -68,13 +68,13 @@ The main endpoints are already there, and you can simply test it by clicking `Lo
     - country name ✅
     - `Detailed Oil Rigs List` 
   
-- Use loading indicators whenever appropriate
+- Use loading indicators whenever appropriate ✅
 
 - Create `Chart View` ✅
 - You should be able to navigate back to `Main View` from `Chart View` ✅
-- Pick any charting library of your choice and plot the Sites on Bar or Line chart
-    - Y axis should be the amount of oil rigs used for the site
-    - X axis should be the name of the site
+- Pick any charting library of your choice and plot the Sites on Bar or Line chart ✅
+    - Y axis should be the amount of oil rigs used for the site ✅
+    - X axis should be the name of the site ✅
 
 
 ### Fullstack challenge
