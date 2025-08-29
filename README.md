@@ -66,7 +66,7 @@ The main endpoints are already there, and you can simply test it by clicking `Lo
 - `Detailed Page` of each oil site should consist of:
     - name ✅
     - country name ✅
-    - `Detailed Oil Rigs List` 
+    - `Detailed Oil Rigs List` ✅
   
 - Use loading indicators whenever appropriate ✅
 
