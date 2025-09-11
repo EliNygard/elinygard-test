@@ -5,8 +5,21 @@ import { Main } from "client/views/main/main";
 import { SitePage } from "./site-page/site";
 import { RigsPage } from "./oil-rigs/oil-rigs";
 import { ChartPage } from "./chart/chart";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import api from '../store/middleware/api/api'
+import { sitesLoaded } from "../store/entities/sites/sites";
+import { oilRigsLoaded } from "../store/entities/oil-rigs/oil-rigs";
 
 export const App = () => {
+const dispatch = useDispatch()
+
+  useEffect(() => {
+  dispatch(sitesLoaded())
+  dispatch(oilRigsLoaded())  
+    
+  }, [])
+
   return (
     <>
       <TopBar
