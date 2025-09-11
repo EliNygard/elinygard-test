@@ -26,10 +26,10 @@ export function useSortByString(list, selector) {
     if (sortOrder === "none") return list;
 
     const copyList = [...list];
-    copyList.sort((a, b) => (a.name ?? "").localeCompare(b.name ?? "", "en"));
+    copyList.sort((a, b) => (a.selector ?? "").localeCompare(b.selector ?? "", "en"));
     if (sortOrder === "desc") copyList.reverse();
     return copyList;
-  }, [list, sortOrder]);
+  }, [list, selector, sortOrder]);
 
   return { searchParams, setSearchParams, sortedList, handleSortChange };
 }
