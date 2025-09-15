@@ -16,30 +16,54 @@ import styles from "./sites.module.less";
 import { useSortByString } from "src/client/hooks/use-sort-by-string";
 import { SortOrderSelect } from "../shared/sort-order-select";
 import LoadingOverlay from "../shared/loading-overlay";
+import { oilRigsLoaded } from "src/client/store/entities/oil-rigs/oil-rigs";
 
-const Sites = ({ list, loading, sitesLoaded }) => {
+const Sites = ({ listSites, loadingSites, sitesLoaded, listOilRigs }) => {
   const { search } = useLocation();
   const { sortedList, handleSortChange } = useSortByString(
-    list,
+    listSites,
     (site) => site.name
   );
+
+  // get oil rigs for each site ✅
+  // match oil rigs id's with the oil rigs for each site ✅
+  // display the name of the oil rigs on each site
+
+  console.log(listSites);
+  console.log(listOilRigs);
+
+  const rigsId = listOilRigs.map((rig) => rig.id);
+  const rigName = listOilRigs.map((rig) => rig.name);
+  console.log(rigName);
+
+  const rigsAtSite = listSites.map((site) => site.oilRigs);
+  console.log("rigs at site", rigsAtSite);
+  rigsAtSite.forEach((rig) => {
+    const match = rig.filter((id) => rigsId.includes(id));
+
+    if (match) {
+      console.log("MATCH:", "rig:", rig, "match:", match, "name:");
+    } else {
+      console.log("no match", "rig", rig);
+    }
+  });
 
   return (
     <Card heading={<Heading>List of oil sites</Heading>}>
       <Row>
         <Column width={200}>
-          <Button
+          {/* <Button
             label="Load sites"
             onClick={sitesLoaded}
-            loading={loading}
-            disabled={loading}
+            loading={loadingSites}
+            disabled={loadingSites}
           />
-          <Spacer />
+          <Spacer /> */}
           <SortOrderSelect onChange={handleSortChange} />
         </Column>
         <Column>
           <div className={styles.sitesList}>
-            {loading && !sortedList && <LoadingOverlay />}
+            {loadingSites && !sortedList && <LoadingOverlay />}
             {!sortedList && !loading && (
               <em>Could not load sites. Please try again.</em>
             )}
@@ -63,9 +87,11 @@ const Sites = ({ list, loading, sitesLoaded }) => {
                         managed
                       >
                         <ul>
-                          {site.oilRigs.map((oilRig) => (
-                            <li key={oilRig}>{oilRig}</li>
-                          ))}
+                          {site.oilRigs.map((oilRig) => {
+                            // console.log('oil rigs on site', oilRig);
+
+                            return <li key={oilRig}>{oilRig}</li>;
+                          })}
                         </ul>
                       </Accordion>
                     </Card>
@@ -83,16 +109,19 @@ const Sites = ({ list, loading, sitesLoaded }) => {
 };
 
 const mapStateToProps = ({ entities }) => {
-  const { sites } = entities;
+  const { sites, oilRigs } = entities;
 
   return {
-    loading: sites.loading,
-    list: sites.list,
+    loadingSites: sites.loading,
+    listSites: sites.list,
+    loadingOilRigs: oilRigs.loading,
+    listOilRigs: oilRigs.list,
   };
 };
 
 const mapDispatchToProps = {
   sitesLoaded,
+  oilRigsLoaded,
 };
 
 const ConnectedSites = connect(mapStateToProps, mapDispatchToProps)(Sites);
