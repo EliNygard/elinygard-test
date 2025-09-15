@@ -14,23 +14,27 @@ import styles from "./oil-rigs.module.less";
 import { useSortByString } from "src/client/hooks/use-sort-by-string";
 import { SortOrderSelect } from "../shared/sort-order-select";
 import LoadingOverlay from "../shared/loading-overlay";
+import { sitesLoaded } from "src/client/store/entities/sites/sites";
 
-const OilRigs = ({ list, loading, oilRigsLoaded }) => {
+const OilRigs = ({ listOilRigs, loading, oilRigsLoaded, listSites }) => {
   const { order, sortedList, handleSortChange } = useSortByString(
-    list,
+    listOilRigs,
     (site) => site.name
   );
+  console.log(listOilRigs);
+  console.log(listSites);
+
   return (
     <Card heading={<Heading>List of oil rigs</Heading>}>
       <Row>
         <Column width={200}>
-          <Button
+          {/* <Button
             label="Load oil rigs"
             onClick={oilRigsLoaded}
             loading={loading}
             disabled={loading}
           />
-          <Spacer />
+          <Spacer /> */}
           <SortOrderSelect onChange={handleSortChange} />
         </Column>
         <Column>
@@ -64,15 +68,16 @@ const OilRigs = ({ list, loading, oilRigsLoaded }) => {
 };
 
 const mapStateToProps = ({ entities }) => {
-  const { oilRigs } = entities;
+  const { oilRigs, sites } = entities;
   return {
     loading: oilRigs.loading,
-    list: oilRigs.list,
+    listOilRigs: oilRigs.list,
+    listSites: sites.list,
   };
 };
 
 const mapDispatchToProps = {
-  oilRigsLoaded,
+  oilRigsLoaded, sitesLoaded
 };
 
 const ConnectedOilRigs = connect(mapStateToProps, mapDispatchToProps)(OilRigs);
