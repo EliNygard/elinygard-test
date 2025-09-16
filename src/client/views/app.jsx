@@ -2,23 +2,22 @@ import { Routes, Route, Link } from "react-router-dom";
 import { TopBar } from "@oliasoft-open-source/react-ui-library";
 import Logo from "client/views/images/logo.svg";
 import { Main } from "client/views/main/main";
-import { SitePage } from "./site-page/site";
 import { RigsPage } from "./oil-rigs/oil-rigs";
 import { ChartPage } from "./chart/chart";
+import { SitePage } from "./site-page/site";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import api from '../store/middleware/api/api'
+import api from "../store/middleware/api/api";
 import { sitesLoaded } from "../store/entities/sites/sites";
 import { oilRigsLoaded } from "../store/entities/oil-rigs/oil-rigs";
 
 export const App = () => {
-const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   useEffect(() => {
-  dispatch(sitesLoaded())
-  dispatch(oilRigsLoaded())  
-    
-  }, [])
+    dispatch(sitesLoaded());
+    dispatch(oilRigsLoaded());
+  }, []);
 
   return (
     <>
