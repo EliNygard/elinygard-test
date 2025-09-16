@@ -25,29 +25,6 @@ const Sites = ({ listSites, loadingSites, sitesLoaded, listOilRigs }) => {
     (site) => site.name
   );
 
-  // get oil rigs for each site ✅
-  // match oil rigs id's with the oil rigs for each site ✅
-  // display the name of the oil rigs on each site
-
-  console.log(listSites);
-  console.log(listOilRigs);
-
-  const rigsId = listOilRigs.map((rig) => rig.id);
-  const rigName = listOilRigs.map((rig) => rig.name);
-  console.log(rigName);
-
-  const rigsAtSite = listSites.map((site) => site.oilRigs);
-  console.log("rigs at site", rigsAtSite);
-  rigsAtSite.forEach((rig) => {
-    const match = rig.filter((id) => rigsId.includes(id));
-
-    if (match) {
-      console.log("MATCH:", "rig:", rig, "match:", match, "name:");
-    } else {
-      console.log("no match", "rig", rig);
-    }
-  });
-
   return (
     <Card heading={<Heading>List of oil sites</Heading>}>
       <Row>
@@ -87,10 +64,12 @@ const Sites = ({ listSites, loadingSites, sitesLoaded, listOilRigs }) => {
                         managed
                       >
                         <ul>
-                          {site.oilRigs.map((oilRig) => {
-                            // console.log('oil rigs on site', oilRig);
-
-                            return <li key={oilRig}>{oilRig}</li>;
+                          {site.oilRigs.map((rigId) => {
+                            const rig = listOilRigs.find(
+                              (rig) => rig.id === rigId
+                            );
+                            if (!rig) return;
+                            return <li key={rig.id}>{rig.name}</li>;
                           })}
                         </ul>
                       </Accordion>
