@@ -21,8 +21,6 @@ const OilRigs = ({ listOilRigs, loading, oilRigsLoaded, listSites }) => {
     listOilRigs,
     (site) => site.name
   );
-  console.log(listOilRigs);
-  console.log(listSites);
 
   return (
     <Card heading={<Heading>List of oil rigs</Heading>}>
