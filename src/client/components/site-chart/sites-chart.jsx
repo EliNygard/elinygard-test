@@ -24,15 +24,14 @@ import { sitesLoaded } from "src/client/store/entities/sites/sites";
 import LoadingOverlay from "../shared/loading-overlay";
 
 const SitesChart = ({ list, loading, sitesLoaded }) => {
-
   // add validation check: only display number of oil rigs that are true (Statfjord should have 4, not 5 rigs)
-  
+
   return (
     <>
       <Card heading={<Heading>Chart of oil rigs on sites</Heading>}>
         <Row>
           {/* <Column width={200}> */}
-            {/* <Button
+          {/* <Button
               label="Load sites"
               onClick={sitesLoaded}
               loading={loading}
