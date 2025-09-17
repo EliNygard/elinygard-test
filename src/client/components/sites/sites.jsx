@@ -16,11 +16,12 @@ import styles from "./sites.module.less";
 import { useSortByString } from "src/client/hooks/use-sort-by-string";
 import { SortOrderSelect } from "../shared/sort-order-select";
 import LoadingOverlay from "../shared/loading-overlay";
+import { oilRigsLoaded } from "src/client/store/entities/oil-rigs/oil-rigs";
 
-const Sites = ({ list, loading, sitesLoaded }) => {
+const Sites = ({ listSites, loadingSites, listOilRigs, loadingOilRigs }) => {
   const { search } = useLocation();
   const { sortedList, handleSortChange } = useSortByString(
-    list,
+    listSites,
     (site) => site.name
   );
 
@@ -28,18 +29,18 @@ const Sites = ({ list, loading, sitesLoaded }) => {
     <Card heading={<Heading>List of oil sites</Heading>}>
       <Row>
         <Column width={200}>
-          <Button
+          {/* <Button
             label="Load sites"
             onClick={sitesLoaded}
-            loading={loading}
-            disabled={loading}
+            loading={loadingSites}
+            disabled={loadingSites}
           />
-          <Spacer />
+          <Spacer /> */}
           <SortOrderSelect onChange={handleSortChange} />
         </Column>
         <Column>
           <div className={styles.sitesList}>
-            {loading && !sortedList && <LoadingOverlay />}
+            {loadingSites && !sortedList && <LoadingOverlay />}
             {!sortedList && !loading && (
               <em>Could not load sites. Please try again.</em>
             )}
@@ -63,9 +64,13 @@ const Sites = ({ list, loading, sitesLoaded }) => {
                         managed
                       >
                         <ul>
-                          {site.oilRigs.map((oilRig) => (
-                            <li key={oilRig}>{oilRig}</li>
-                          ))}
+                          {site.oilRigs.map((rigId) => {
+                            const rig = listOilRigs.find(
+                              (rig) => rig.id === rigId
+                            );
+                            if (!rig) return;
+                            return <li key={rig.id}>{rig.name}</li>;
+                          })}
                         </ul>
                       </Accordion>
                     </Card>
@@ -83,16 +88,19 @@ const Sites = ({ list, loading, sitesLoaded }) => {
 };
 
 const mapStateToProps = ({ entities }) => {
-  const { sites } = entities;
+  const { sites, oilRigs } = entities;
 
   return {
-    loading: sites.loading,
-    list: sites.list,
+    loadingSites: sites.loading,
+    listSites: sites.list,
+    loadingOilRigs: oilRigs.loading,
+    listOilRigs: oilRigs.list,
   };
 };
 
 const mapDispatchToProps = {
   sitesLoaded,
+  oilRigsLoaded,
 };
 
 const ConnectedSites = connect(mapStateToProps, mapDispatchToProps)(Sites);

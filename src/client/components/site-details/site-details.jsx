@@ -8,7 +8,7 @@ import {
   Spacer,
 } from "@oliasoft-open-source/react-ui-library";
 import { useParams } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { connect, useDispatch, useSelector } from "react-redux";
 import styles from "./site-details.module.less";
 import { BackToSitesButton } from "src/client/components/shared/back-to-sites-button";
 import { sitesLoaded } from "src/client/store/entities/sites/sites";
@@ -16,53 +16,22 @@ import LoadingOverlay from "../shared/loading-overlay";
 import NotFound from "../shared/not-found/not-found";
 import { oilRigsLoaded } from "src/client/store/entities/oil-rigs/oil-rigs";
 
-const SiteDetails = ({}) => {
+const SiteDetails = ({
+  listSites,
+  loadingSites,
+  sitesLoaded,
+  listOilRigs,
+  loadingOilRigs,
+}) => {
   const { id } = useParams();
-  const dispatch = useDispatch();
 
-  const { list: sites, loading: sitesLoading } = useSelector(
-    (s) => s.entities.sites
-  );
-  const { list: oilRigs, loading: oilRigsLoading } = useSelector(
-    (s) => s.entities.oilRigs
-  );
+  const site = listSites.find((s) => s.id === id);
 
-  useEffect(() => {
-    if (!sites || sites.length === 0) {
-      dispatch(sitesLoaded());
-    }
-    if (!oilRigs || oilRigs.length === 0) {
-      dispatch(oilRigsLoaded());
-    }
-  }, [sites?.length, oilRigs?.length, dispatch]);
-
-  const site = sites?.find((s) => String(s.id) === String(id));
-
-  const oilRigsOnSite = useMemo(() => {
-    if (!site || !oilRigs?.length) return [];
-    const byId = new Map(oilRigs.map((r) => [String(r.id), r]));
-    const byName = new Map(
-      oilRigs.map((r) => [String((r.name || "").toLowerCase()), r])
-    );
-
-    return (site.oilRigs || []).map((token) => {
-      const key = String(token);
-      return (
-        byId.get(key) ||
-        byName.get(key.toLocaleLowerCase()) || {
-          id: key,
-          name: "Unknown",
-          manufacturer: "Unknown",
-        }
-      );
-    });
-  }, [site, oilRigs]);
-
-  if (sitesLoading || oilRigsLoading) {
+  if (loadingSites || loadingOilRigs) {
     return <LoadingOverlay />;
   }
 
-  if (!sitesLoading && !site) {
+  if (!loadingSites && !site) {
     return <NotFound page="Site" text="this site" />;
   }
 
@@ -81,15 +50,19 @@ const SiteDetails = ({}) => {
             <Heading>Oil Rigs at this site</Heading>
             <Spacer />
             <ul className={styles.oilRigsList}>
-              {oilRigsOnSite && oilRigsOnSite.length > 0 ? (
-                oilRigsOnSite.map((rig) => (
-                  <li key={rig.id}>
-                    <Card heading={`Name: ${rig.name}`}>
-                      <p>Manufacturer: {rig.manufacturer}</p>
-                      <p>Id: {rig.id}</p>
-                    </Card>
-                  </li>
-                ))
+              {site.oilRigs && site.oilRigs.length > 0 ? (
+                site.oilRigs.map((rigId) => {
+                  const rig = listOilRigs.find((rig) => rig.id === rigId);
+                  if (!rig) return;
+                  return (
+                    <li key={rig.id}>
+                      <Card heading={`Name: ${rig.name}`}>
+                        <p>Manufacturer: {rig.manufacturer}</p>
+                        <p>Id: {rig.id} </p>
+                      </Card>
+                    </li>
+                  );
+                })
               ) : (
                 <p>There are no oil rigs at this site.</p>
               )}
@@ -101,4 +74,25 @@ const SiteDetails = ({}) => {
   );
 };
 
-export default SiteDetails;
+const mapStateToProps = ({ entities }) => {
+  const { sites, oilRigs } = entities;
+
+  return {
+    loadingSites: sites.loading,
+    listSites: sites.list,
+    loadingOilRigs: oilRigs.loading,
+    listOilRigs: oilRigs.list,
+  };
+};
+
+const mapDispatchToProps = {
+  sitesLoaded,
+  oilRigsLoaded,
+};
+
+const ConnectedSiteDetails = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(SiteDetails);
+
+export { ConnectedSiteDetails as SiteDetails };
