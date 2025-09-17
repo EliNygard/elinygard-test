@@ -18,7 +18,7 @@ import { SortOrderSelect } from "../shared/sort-order-select";
 import LoadingOverlay from "../shared/loading-overlay";
 import { oilRigsLoaded } from "src/client/store/entities/oil-rigs/oil-rigs";
 
-const Sites = ({ listSites, loadingSites, sitesLoaded, listOilRigs }) => {
+const Sites = ({ listSites, loadingSites, listOilRigs, loadingOilRigs }) => {
   const { search } = useLocation();
   const { sortedList, handleSortChange } = useSortByString(
     listSites,
