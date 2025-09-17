@@ -22,9 +22,11 @@ import {
 } from "recharts";
 import { sitesLoaded } from "src/client/store/entities/sites/sites";
 import LoadingOverlay from "../shared/loading-overlay";
+import { oilRigsLoaded } from "src/client/store/entities/oil-rigs/oil-rigs";
 
-const SitesChart = ({ list, loading, sitesLoaded }) => {
-  // add validation check: only display number of oil rigs that are true (Statfjord should have 4, not 5 rigs)
+const SitesChart = ({ listSites, loadingSites, sitesLoaded, listOilRigs }) => {
+  // add validation check: only display number of oil rigs that are a match with listOilRigs (Statfjord should have 4, not 5 rigs)
+  // filter out id's that match id's from the listOilRigs.
 
   return (
     <>
@@ -40,13 +42,13 @@ const SitesChart = ({ list, loading, sitesLoaded }) => {
           {/* </Column> */}
           <Column>
             <div style={{ width: "100%", height: 360 }}>
-              {loading && !list && <LoadingOverlay />}
-              {!loading && list.length > 0 ? (
+              {loadingSites && !listSites && <LoadingOverlay />}
+              {!loadingSites && listSites.length > 0 ? (
                 <ResponsiveContainer width="100%" height="100%">
                   <BarChart
                     width={500}
                     height={300}
-                    data={list}
+                    data={listSites}
                     margin={{
                       top: 5,
                       right: 30,
@@ -90,16 +92,19 @@ const SitesChart = ({ list, loading, sitesLoaded }) => {
 };
 
 const mapStateToProps = ({ entities }) => {
-  const { sites } = entities;
+  const { sites, oilRigs } = entities;
 
   return {
-    loading: sites.loading,
-    list: sites.list,
+    loadingSites: sites.loading,
+    listSites: sites.list,
+    loadingOilRigs: oilRigs.loading,
+    listOilRigs: oilRigs.list,
   };
 };
 
 const mapDispatchToProps = {
   sitesLoaded,
+  oilRigsLoaded,
 };
 
 const ConnectedSites = connect(mapStateToProps, mapDispatchToProps)(SitesChart);
